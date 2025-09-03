@@ -20,7 +20,7 @@ import "./globals.css";
 
 const navItems = [
   // { name: "Services", link: "#services" },
-  { name: "Solutions", link: "/solutions" },
+  { name: "services", link: "/services" },
   { name: "About", link: "/about" },
   { name: "Clients", link: "/clients" },
   { name: "Team", link: "/team" },
