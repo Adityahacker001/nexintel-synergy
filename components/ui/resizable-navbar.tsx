@@ -133,10 +133,20 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           onClick={onItemClick}
           className={cn(
             "relative px-4 py-2 text-black dark:text-neutral-300",
-            item.name.toLowerCase() === "solutions" && "pl-[100px]"
+            item.name.toLowerCase() === "services" && "pl-[100px]"
           )}
           key={`link-${idx}`}
-          href={item.link}
+          href={(() => {
+            switch (item.name.toLowerCase()) {
+              case "home": return "/#home";
+              case "services": return "/#service";
+              case "about": return "/#about";
+              case "our clients": return "/#clients";
+              case "our team": return "/#team";
+              case "testimonials": return "/#testimonials";
+              default: return item.link;
+            }
+          })()}
         >
           {hovered === idx && (
             <motion.div

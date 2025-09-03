@@ -35,13 +35,17 @@ export default function HeroSection() {
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
-          src="/hero-sec.mp4"
+          src="/hero1.mp4"
           autoPlay
           loop
           muted
+          playsInline
           className="object-cover w-full h-full"
-        />
-        <div className="absolute inset-0 bg-black/30" />
+          poster="/placeholder.jpg"
+        >
+          Sorry, your browser does not support embedded videos.
+        </video>
+  {/* Removed overlay to show real video quality */}
       </div>
 
       {/* Flip Text Hero Title */}
