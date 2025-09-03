@@ -19,13 +19,11 @@ import "./globals.css";
 // import { Moon, Sun } from "lucide-react";
 
 const navItems = [
-  // { name: "Services", link: "#services" },
-  { name: "services", link: "/services" },
-  { name: "About", link: "/about" },
-  { name: "Clients", link: "/clients" },
-  { name: "Team", link: "/team" },
-  // { name: "Clients", link: "/clients" },
-  { name: "Movement", link: "/movement" }
+  { name: "services", link: "#service" },
+  { name: "about", link: "#about" },
+  { name: "clients", link: "#clients" },
+  { name: "team", link: "#team" },
+  { name: "movement", link: "#movement" }
 ];
 
 
@@ -33,13 +31,11 @@ const navItems = [
 const LogoComponent = () => (
   <Link
     href="/"
-    className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
+    className="relative z-20 mr-4 flex flex-row items-center gap-2 px-2 py-1 text-sm font-normal whitespace-nowrap"
+    style={{ minWidth: 'max-content' }}
   >
-    <div className="flex gap-2">
     <img src="/logo-3.png" alt="" className="w-8"/>
-      <p className="font-bold text-lg text-black">
-        Nexintel Synergy</p>
-    </div>
+    <span className="font-bold text-lg text-black whitespace-nowrap">Nexintel Synergy</span>
   </Link>
 );
 
@@ -61,12 +57,12 @@ export default function RootLayout({
             <NavItems  items={navItems} />
             <div className="flex items-center space-x-4">
               <NavbarButton
-                href="/contact"
-                variant="primary"
-                className="bg-black text-white"
-              >
-                Contact
-              </NavbarButton>
+                  href="#contact"
+                  variant="primary"
+                  className="bg-black text-white"
+                >
+                  Contact
+                </NavbarButton>
             </div>
           </NavBody>
 
@@ -81,22 +77,22 @@ export default function RootLayout({
 
             <MobileNavMenu isOpen={isOpen} onClose={() => setIsOpen(false)}>
               {navItems.map((item, idx) => (
-                <a
-                  key={idx}
-                  href={item.link}
-                  className="block w-full px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white"
-                  onClick={() => setIsOpen(false)}
+                  <a
+                    key={idx}
+                    href={item.link}
+                    className="block w-full px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+                <NavbarButton
+                  href="#contact"
+                  variant="primary"
+                  className="mt-4 bg-gray-900 hover:bg-gray-800 text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors duration-300"
                 >
-                  {item.name}
-                </a>
-              ))}
-              <NavbarButton
-                href="/contact"
-                variant="primary"
-                className="mt-4 bg-gray-900 hover:bg-gray-800 text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors duration-300"
-              >
-                Contact
-              </NavbarButton>
+                  Contact
+                </NavbarButton>
             </MobileNavMenu>
           </MobileNav>
         </Navbar>

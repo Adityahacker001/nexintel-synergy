@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import Hero from "@/components/sections/hero"
 import OurServices from "@/components/sections/service"
 // import ClientsSection from "@/components/sections/client"
-// import AboutSection from "@/components/sections/about"
+import AboutSection from "@/components/sections/about"
 import ClientsSection from "@/components/sections/client"
 import TeamSection from "@/components/sections/team"
 import TestimonialsSection from "@/components/sections/testimonial"
@@ -45,7 +45,7 @@ export default function HomePage() {
   const navItems = [
     { id: "home", label: "Home", href: "#home" },
     { id: "service", label: "Services", href: "#service" },
-    { id: "about", label: "About", href: "#about" },
+    { id: "about", label: "About", href: "" },
     { id: "clients", label: "Our Clients", href: "#clients" },
     { id: "team", label: "Our Team", href: "#team" },
     { id: "testimonials", label: "Testimonials", href: "#testimonials" },
@@ -60,7 +60,7 @@ export default function HomePage() {
       <Hero />
 
       {/* About Section */}
-      {/* <AboutSection/> */}
+      <AboutSection/>
 
        {/* Services Section */}
       <OurServices />

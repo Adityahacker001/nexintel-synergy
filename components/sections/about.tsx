@@ -1,94 +1,123 @@
-// "use client"
+"use client";
 
-// import { Button } from "@/components/ui/button"
-// import { ArrowRight, Building, Code, Leaf } from "lucide-react"
+import React from "react";
+import { motion } from "framer-motion";
+import { Landmark, Award, Leaf, ArrowRight } from "lucide-react";
 
-// export default function AboutSection() {
-//   const features = [
-//     {
-//       icon: Building,
-//       title: "Government Partnerships",
-//       description: "We deliver secure, scalable systems trusted by institutions.",
-//     },
-//     {
-//       icon: Code,
-//       title: "Professional Excellence",
-//       description: "Our certified experts bring enterprise-grade engineering.",
-//     },
-//     {
-//       icon: Leaf,
-//       title: "Sustainable Innovation",
-//       description: "Solutions that reduce carbon footprint and improve efficiency.",
-//     },
-//   ]
+// Animation variants for the main container
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, delayChildren: 0.2 },
+  },
+};
 
-//   return (
-//     <section id="about" className="py-20 bg-[#f9f9f9]">
-//       <div className="container mx-auto px-6">
-//         <div className="max-w-6xl mx-auto">
-//           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-//             <div className="text-white space-y-8">
-//               <div>
-//                 <div className="text-black text-sm font-medium tracking-wider uppercase mb-4">
-//                   About Nexintel Synergy
-//                 </div>
-//                 <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight text-black">
-//                   Leading the Future of
-//                   <span className="block text-black font-bold">Intelligent Technology</span>
-//                 </h2>
-//                 <p className="text-md text-black leading-relaxed mb-8">
-//                   NexIntel Synergy specializes in software development with a strong emphasis on sustainability and innovation. By leveraging artificial intelligence, data analytics, and crowd-sourcing mobility, we deliver transformative solutions that address global environmental challenges.
-//                 </p>
-//               </div>
+// Animation variants for individual items
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+};
 
-//               <div className="space-y-6">
-//                 <div className="border-l-2 border-blue-500 pl-6">
-//                   <h3 className="text-xl font-medium mb-2 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-400 text-transparent bg-clip-text">Our Mission</h3>
-//                   <p className="text-gray-400 leading-relaxed">
-//                     To empower businesses  with intelligent technology solutions that transform operations and create
-//                     sustainable competitive advantages.
-//                   </p>
-//                 </div>
-//                 <div className="border-l-2 border-blue-400 pl-6">
-//                   <h3 className="text-xl font-medium mb-2 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-400 text-transparent bg-clip-text">Our Vision</h3>
-//                   <p className="text-gray-400 leading-relaxed">
-//                     To be the global leader in intelligent technology consulting, recognized for innovation and
-//                     exceptional client value.
-//                   </p>
-//                 </div>
-//               </div>
+const AboutSection = () => {
+  const keyPillars = [
+    {
+      icon: Landmark,
+      title: "Government Partnerships",
+      description: "We deliver secure, scalable systems trusted by institutions.",
+    },
+    {
+      icon: Award,
+      title: "Professional Excellence",
+      description: "Our certified experts bring enterprise-grade engineering.",
+    },
+    {
+      icon: Leaf,
+      title: "Sustainable Innovation",
+      description: "Solutions that reduce carbon footprint and improve efficiency.",
+    },
+  ];
 
-//               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
-//                 Learn More About Us
-//                 <ArrowRight className="ml-2 w-4 h-4" />
-//               </Button>
+  return (
+    // UPDATED: Background is now a gradient from black to a soft, near-white green.
+    <section 
+      id="about" 
+      className="py-20 md:py-28 text-gray-300 relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #000000 0%, #050a06 30%, #f0fdf4 100%)'
+      }}
+    >
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {/* LEFT COLUMN: Narrative & Core Tenets */}
+          <motion.div variants={itemVariants} className="space-y-8">
+            <div>
+              <p className="text-sm font-semibold tracking-widest text-green-400 uppercase mb-3">About NexIntel Synergy</p>
+              <h2 className="text-4xl md:text-[2.5rem] leading-tight font-extrabold mb-5 tracking-tight bg-gradient-to-r from-green-400 via-emerald-400 to-lime-400 bg-clip-text text-transparent drop-shadow-lg">
+                Leading the Future of Intelligent Technology
+              </h2>
+              <p className="text-base text-gray-400 leading-relaxed mb-6">
+                NexIntel Synergy specializes in software development with a strong emphasis on sustainability and innovation. By leveraging artificial intelligence, data analytics, and crowd-sourcing mobility, we deliver transformative solutions that address global environmental challenges.
+              </p>
+               <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(57, 255, 20, 0.3)"}}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg shadow-sm text-black bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 transition-all"
+                >
+                  Learn More About Us
+                  <ArrowRight className="w-4 h-4"/>
+                </motion.button>
+            </div>
+            
+            <div className="space-y-4">
+                <div className="p-5 rounded-xl bg-gray-900/50 border border-white/10 backdrop-blur-sm">
+                    <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
+                        Our Mission
+                    </h3>
+                    <p className="text-sm text-gray-400">
+                        To empower businesses with intelligent technology solutions that transform operations and create sustainable competitive advantages.
+                    </p>
+                </div>
+                <div className="p-5 rounded-xl bg-gray-900/50 border border-white/10 backdrop-blur-sm">
+                    <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
+                        Our Vision
+                    </h3>
+                    <p className="text-sm text-gray-400">
+                        To be the global leader in intelligent technology consulting, recognized for innovation and exceptional client value.
+                    </p>
+                </div>
+            </div>
+          </motion.div>
 
-//               {/* Features Section */}
-//               <div className="space-y-6 mt-10">
-//                 {features.map((item, i) => (
-//                   <div key={i} className="flex items-start space-x-4">
-//                     <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center">
-//                       <item.icon className="text-white w-5 h-5" />
-//                     </div>
-//                     <div>
-//                       <h4 className="text-md font-semibold text-black mb-1">{item.title}</h4>
-//                       <p className="text-sm text-gray-500">{item.description}</p>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//             <div className="relative">
-//               <img
-//                 src="/logo-2.png"
-//                 alt="About Nexintel Synergy"
-//                 className="w-full h-96 object-cover rounded-lg"
-//               />
-//               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-lg"></div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   )
-// }
+          {/* RIGHT COLUMN: Key Pillars */}
+          <motion.div variants={itemVariants} className="space-y-6">
+              {keyPillars.map((item, index) => (
+                <motion.div 
+                    key={index}
+                    whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                    className="flex items-start gap-4 p-5 rounded-2xl bg-gray-900/50 border border-white/10"
+                >
+                  <div className="flex-shrink-0 p-3 bg-gray-800 rounded-full border border-white/10 mt-1">
+                    <item.icon className="w-6 h-6 text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold text-white mb-1">{item.title}</h4>
+                    <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default AboutSection;
+

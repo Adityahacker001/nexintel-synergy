@@ -1,4 +1,7 @@
 "use client";
+// ...existing code...
+// Replace the top-level section in the main exported function:
+// (Removed duplicate export default function)
 
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
