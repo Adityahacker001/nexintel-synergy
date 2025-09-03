@@ -103,9 +103,11 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       }}
       style={{
         minWidth: "800px",
+        backgroundColor: '#fff',
+        borderRadius: '30px',
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-white px-4 py-2 lg:flex",
+        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start px-4 py-2 lg:flex",
         className,
       )}
     >
@@ -129,7 +131,10 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-black dark:text-neutral-300"
+          className={cn(
+            "relative px-4 py-2 text-black dark:text-neutral-300",
+            item.name.toLowerCase() === "solutions" && "pl-[100px]"
+          )}
           key={`link-${idx}`}
           href={item.link}
         >
