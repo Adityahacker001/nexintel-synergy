@@ -102,7 +102,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         damping: 50,
       }}
       style={{
-        minWidth: "800px",
+        minWidth: "870px",
         backgroundColor: '#fff',
         borderRadius: '30px',
       }}
@@ -117,13 +117,13 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 };
 
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = React.useState<number | null>(null);
 
   return (
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-black transition duration-200 hover:text-white lg:flex lg:space-x-2",
+        "hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-black transition duration-200 hover:text-white lg:flex lg:space-x-2",
         className,
       )}
     >
@@ -132,8 +132,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
           className={cn(
-            "relative px-4 py-2 text-black dark:text-neutral-300",
-            item.name.toLowerCase() === "services" && "pl-[100px]"
+            "relative inline-flex items-center px-6 py-2 text-black dark:text-neutral-300 overflow-hidden rounded-full transition-colors duration-200 font-semibold",
+            item.name.toLowerCase() === "services" && "pl-6"
           )}
           key={`link-${idx}`}
           href={(() => {
@@ -151,10 +151,15 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-full bg-gradient-to-r from-green-400 via-emerald-400 to-lime-300/90 shadow-lg shadow-green-200/40 dark:from-green-700 dark:via-emerald-700 dark:to-lime-500/80 dark:shadow-emerald-900/40 pointer-events-none"
+              style={{
+                filter: 'blur(0.5px)',
+                transition: 'background 0.3s, box-shadow 0.3s',
+                zIndex: 0,
+              }}
             />
           )}
-          <span className="relative z-20">{item.name}</span>
+          <span className="relative z-10">{item.name}</span>
         </a>
       ))}
     </motion.div>

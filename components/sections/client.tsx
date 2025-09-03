@@ -53,7 +53,7 @@ export default function OurServices() {
   };
 
   return (
-    <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black text-white py-12 px-6 md:px-20">
+    <section className="w-full bg-gradient-to-b from-black via-gray-900 to-black text-white py-12 px-6 md:px-20" id="clients">
       <div className="max-w-7xl mx-auto">
         {/* Section Title */}
         <motion.div
@@ -108,6 +108,7 @@ export default function OurServices() {
                 scale: 1.08,
                 rotate: -2,
                 boxShadow: "0 8px 32px 0 rgba(163, 230, 53, 0.25)",
+                borderRadius: '1.5rem', // rounded-3xl = 1.5rem
               }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring" as const, stiffness: 200, damping: 15 }}

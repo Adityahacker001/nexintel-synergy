@@ -12,7 +12,10 @@ import {
 } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
-// UNCHANGED: Service data remains the same
+// UNCHANGED: Service data
+// ...existing code...
+// Replace the top-level section in the main exported function:
+// (Removed duplicate export default function)
 const services = [
     { icon: Brain, title: "Cognitive Governance & Compliance", description: "Navigate the complexities of modern regulation with confidence." },
     { icon: Shield, title: "Digital Ecosystems for Public Impact", description: "We partner with public sector organizations and NGOs to build the digital infrastructure for a better tomorrow." },
@@ -22,28 +25,26 @@ const services = [
     { icon: TrendingUp, title: "Sustainable Enterprise Suite (SES)", description: "Go beyond reporting. We empower your business to become a leader in sustainability with AI-driven intelligence." },
 ];
 
-const cardVariants = {
+import type { Variants } from "framer-motion";
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
-  visible: (i: number): any => ({
+  visible: {
     opacity: 1, y: 0, scale: 1,
-    transition: { delay: i * 0.1, duration: 0.6, ease: [0.42, 0, 0.58, 1] },
-  }),
+    transition: { duration: 0.6, ease: [0.42, 0, 0.58, 1] },
+  },
 };
 
-
-// UNCHANGED: The 3D mouse-tracking card component
-interface Service {
+// UNCHANGED: 3D Service Card component
+type ServiceType = {
   icon: React.ElementType;
   title: string;
-  subtitle?: string;
   description: string;
-}
-
+  subtitle?: string;
+};
 interface ServiceCardProps {
-  service: Service;
+  service: ServiceType;
   index: number;
 }
-
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -53,7 +54,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
@@ -75,8 +76,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      variants={cardVariants as any}
-      custom={index}
+      variants={cardVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
@@ -100,64 +100,54 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   );
 };
 
-// NEW: The animated header is now its own component to allow for re-animation
+// UPDATED: Text colors fixed for visibility
 const AnimatedHeader = () => {
-    // This useEffect will run every time this component is mounted (due to the key change)
-    useEffect(() => {
-        const splitText = (selector: string) => {
-            const el = document.querySelector(selector);
-            if (!el) return;
-            const text = el.textContent || "";
-            // Faster animation: reduce delay per character
-            el.innerHTML = text
-              .split("")
-              .map((char: string, i: number) => `<span style="animation-delay:${i * 0.025}s">${char === ' ' ? '&nbsp;' : char}</span>`)
-              .join("");
-        };
+  useEffect(() => {
+    const splitText = (selector: string) => {
+      const el = document.querySelector(selector);
+      if (!el) return;
+      const text = el.textContent || "";
+      el.innerHTML = text
+        .split("")
+        .map((char: string, i: number) => `<span style="animation-delay:${i * 0.025}s">${char === ' ' ? '&nbsp;' : char}</span>`)
+        .join("");
+    };
+    splitText(".animated-heading");
+    splitText(".animated-desc");
+  }, []);
 
-        // These selectors are now local to this component's render
-        splitText(".animated-heading");
-        splitText(".animated-desc");
-    }, []); // The empty array ensures it runs on mount
-
-    return (
-        <div className="text-center mb-20">
-            <div className="text-gray-900 text-sm font-semibold tracking-[0.25em] uppercase mb-10">
-                <span className="animated-heading">Our Services</span>
-            </div>
-            <h2 className="text-5xl md:text-7xl font-light mb-8 text-black leading-tight">
-                <span className="animated-heading">
-                    NexIntel Synergy <br />
-                    <span className="block text-green-500 font-medium">Solutions</span>
-                </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                <span className="animated-desc">
-                    From AI implementation to digital transformation, we provide end-to-end technology services tailored to your business objectives and industry requirements.
-                </span>
-            </p>
-        </div>
-    );
+  return (
+    <div className="text-center mb-20">
+      {/* UPDATED: Darker text color for better contrast */}
+      <div className="text-gray-800 text-sm font-semibold tracking-[0.25em] uppercase mb-10">
+        <span className="animated-heading">Our Services</span>
+      </div>
+      {/* UPDATED: Darker base text color and added drop shadow */}
+      <h2 className="text-5xl md:text-7xl font-light mb-8 text-gray-900 leading-tight drop-shadow-sm">
+        <span className="animated-heading">
+          NexIntel Synergy <br />
+          <span className="block text-green-500 font-medium">Solutions</span>
+        </span>
+      </h2>
+      {/* UPDATED: Darker text color for better contrast */}
+      <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+        <span className="animated-desc">
+          From AI implementation to digital transformation, we provide end-to-end technology services tailored to your business objectives and industry requirements.
+        </span>
+      </p>
+    </div>
+  );
 };
 
-
 export default function ServicesSection() {
-  // State to manage re-triggering the animation by changing the component's key
   const [headerAnimationKey, setHeaderAnimationKey] = useState(0);
 
   return (
-    <section className="py-32 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #F0FFF4 0%, #FFFFFF 100%)' }}>
-      <motion.div
-        aria-hidden="true"
-        initial={{ opacity: 0.85 }}
-        animate={{ opacity: [0.85, 1, 0.85] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 bg-gradient-to-r from-green-50 via-white to-green-50 animate-gradient-slow"
-        style={{ zIndex: 0 }}
-      />
-
+    <section id="service"
+        className="py-32 relative overflow-hidden" 
+        style={{ background: 'linear-gradient(180deg, #F0FFF4 0%, #0a0f0c 100%)' }}
+    >
       <div className="container mx-auto px-6 relative z-10">
-        {/* UPDATED: Wrapper div with onMouseEnter to trigger animation */}
         <div onMouseEnter={() => setHeaderAnimationKey(prevKey => prevKey + 1)}>
             <AnimatedHeader key={headerAnimationKey} />
         </div>
@@ -179,15 +169,6 @@ export default function ServicesSection() {
         }
         @keyframes fade-in {
           100% { opacity: 1; filter: blur(0); }
-        }
-        @keyframes gradient-slow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .animate-gradient-slow {
-          background-size: 200% 200%;
-          animation: gradient-slow 12s ease infinite;
         }
       `}</style>
     </section>
