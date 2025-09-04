@@ -10,12 +10,9 @@ import {
   ChevronRight,
   QrCode,
 } from "lucide-react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, Variants } from "framer-motion";
 
 // UNCHANGED: Service data
-// ...existing code...
-// Replace the top-level section in the main exported function:
-// (Removed duplicate export default function)
 const services = [
     { icon: Brain, title: "Cognitive Governance & Compliance", description: "Navigate the complexities of modern regulation with confidence." },
     { icon: Shield, title: "Digital Ecosystems for Public Impact", description: "We partner with public sector organizations and NGOs to build the digital infrastructure for a better tomorrow." },
@@ -25,16 +22,15 @@ const services = [
     { icon: TrendingUp, title: "Sustainable Enterprise Suite (SES)", description: "Go beyond reporting. We empower your business to become a leader in sustainability with AI-driven intelligence." },
 ];
 
-import type { Variants } from "framer-motion";
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
-  visible: {
+  visible: (i: number) => ({
     opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.6, ease: [0.42, 0, 0.58, 1] },
-  },
+    transition: { delay: i * 0.1, duration: 0.6, ease: [0.42, 0, 0.58, 1] },
+  }),
 };
 
-// UNCHANGED: 3D Service Card component
+// --- UPDATED: The ultimate premium, amazing, and stylish Service Card ---
 type ServiceType = {
   icon: React.ElementType;
   title: string;
@@ -47,22 +43,35 @@ interface ServiceCardProps {
 }
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
+  
+  // For the 3D tilt effect (unchanged)
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  // NEW: For the interactive holographic glow
+  const glowX = useMotionValue(0);
+  const glowY = useMotionValue(0);
+  const glowXSpring = useSpring(glowX, { stiffness: 150, damping: 20 });
+  const glowYSpring = useSpring(glowY, { stiffness: 150, damping: 20 });
+
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    x.set(mouseX / width - 0.5);
-    y.set(mouseY / height - 0.5);
+    
+    // For 3D Tilt
+    const tiltX = (e.clientX - rect.left) / rect.width - 0.5;
+    const tiltY = (e.clientY - rect.top) / rect.height - 0.5;
+    x.set(tiltX);
+    y.set(tiltY);
+
+    // For Holographic Glow
+    glowX.set(e.nativeEvent.offsetX);
+    glowY.set(e.nativeEvent.offsetY);
   };
 
   const handleMouseLeave = () => {
@@ -77,32 +86,58 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       variants={cardVariants}
+      custom={index}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
       className="group"
     >
-      <div style={{ transform: "translateZ(75px)", transformStyle: "preserve-3d" }} className="relative p-8 rounded-2xl h-full bg-white/60 backdrop-blur-lg border border-green-200/80 shadow-2xl shadow-green-500/20 transition-all duration-300 group-hover:border-green-400">
-        <div style={{ transform: "translateZ(50px)" }} className="absolute inset-0 bg-gradient-to-r from-green-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div style={{ transform: "translateZ(50px)" }} className="relative flex flex-col h-full">
-          <div className="flex justify-between items-start mb-6">
-            <div className="relative w-14 h-14 rounded-xl flex items-center justify-center bg-green-100 border border-green-200">
-              {React.createElement(service.icon, { className: "w-8 h-8 text-green-600" })}
+      <div 
+        style={{ transform: "translateZ(75px)", transformStyle: "preserve-3d" }} 
+        className="relative p-1 rounded-2xl h-full bg-gray-900/80"
+      >
+        <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-green-400 via-emerald-500 to-lime-400 opacity-50 group-hover:opacity-100 transition-opacity duration-300 animate-aurora"></div>
+        
+        <div className="relative z-10 p-5 rounded-[12px] h-full bg-gray-950/90 backdrop-blur-xl overflow-hidden"
+            // NEW: Subtle noise texture for a frosted glass feel
+            style={{backgroundImage: `url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.04\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')`}}
+        >
+             {/* NEW: Interactive Holographic Glow */}
+             <motion.div
+                className="absolute w-64 h-64 bg-[radial-gradient(circle_at_center,_rgba(52,211,153,0.2),transparent_70%)] opacity-0 group-hover:opacity-100"
+                style={{
+                    x: glowXSpring,
+                    y: glowYSpring,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                }}
+             />
+
+             <div style={{ transform: "translateZ(50px)" }} className="relative flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div 
+                    className="relative w-11 h-11 rounded-lg flex items-center justify-center bg-gray-800 border border-white/10 group-hover:bg-green-500/10 transition-colors duration-300"
+                    // NEW: Floating Icon with Drop Shadow
+                    style={{filter: "drop-shadow(0 4px 8px rgba(0, 255, 150, 0.3))"}}
+                >
+                  {React.createElement(service.icon, { className: "w-6 h-6 text-green-400" })}
+                   <div className="absolute inset-0 bg-green-400/30 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <ChevronRight style={{ transform: "translateZ(20px)" }} className="w-5 h-5 text-gray-500 group-hover:text-green-500 transition-colors" />
+              </div>
+              <h3 style={{ transform: "translateZ(30px)" }} className="text-lg font-bold mb-1 text-white">{service.title}</h3>
+              {service.subtitle && (<div style={{ transform: "translateZ(20px)" }} className="text-xs font-semibold text-green-400 mb-1 uppercase tracking-wider">{service.subtitle}</div>)}
+              <p className="text-sm text-gray-400 leading-relaxed mt-1 flex-grow">{service.description}</p>
             </div>
-            <ChevronRight style={{ transform: "translateZ(20px)" }} className="w-6 h-6 text-gray-400 group-hover:text-green-600 transition-colors" />
-          </div>
-          <h3 style={{ transform: "translateZ(30px)" }} className="text-xl font-bold mb-2 text-gray-900 group-hover:text-green-700 transition-colors">{service.title}</h3>
-          {service.subtitle && (<div style={{ transform: "translateZ(20px)" }} className="text-xs font-semibold text-green-600 mb-2 uppercase tracking-wider">{service.subtitle}</div>)}
-          <p className="text-base text-gray-600 leading-relaxed mt-2 flex-grow">{service.description}</p>
         </div>
       </div>
     </motion.div>
   );
 };
 
-// UPDATED: Text colors fixed for visibility
+// UNCHANGED: Animated Header Component
 const AnimatedHeader = () => {
-  useEffect(() => {
+ useEffect(() => {
     const splitText = (selector: string) => {
       const el = document.querySelector(selector);
       if (!el) return;
@@ -114,36 +149,34 @@ const AnimatedHeader = () => {
     };
     splitText(".animated-heading");
     splitText(".animated-desc");
-  }, []);
+ }, []);
 
-  return (
+ return (
     <div className="text-center mb-20">
-      {/* UPDATED: Darker text color for better contrast */}
-      <div className="text-gray-800 text-sm font-semibold tracking-[0.25em] uppercase mb-10">
+      <div className="text-gray-800 dark:text-gray-400 text-sm font-semibold tracking-[0.25em] uppercase mb-10">
         <span className="animated-heading">Our Services</span>
       </div>
-      {/* UPDATED: Darker base text color and added drop shadow */}
-      <h2 className="text-5xl md:text-7xl font-light mb-8 text-gray-900 leading-tight drop-shadow-sm">
+      <h2 className="text-5xl md:text-7xl font-light mb-8 text-gray-900 dark:text-white leading-tight drop-shadow-sm">
         <span className="animated-heading">
           NexIntel Synergy <br />
           <span className="block text-green-500 font-medium">Solutions</span>
         </span>
       </h2>
-      {/* UPDATED: Darker text color for better contrast */}
-      <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+      <p className="text-xl text-gray-700 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
         <span className="animated-desc">
           From AI implementation to digital transformation, we provide end-to-end technology services tailored to your business objectives and industry requirements.
         </span>
       </p>
     </div>
-  );
+ );
 };
 
 export default function ServicesSection() {
   const [headerAnimationKey, setHeaderAnimationKey] = useState(0);
 
   return (
-    <section id="service"
+    <section 
+        id="service"
         className="py-32 relative overflow-hidden" 
         style={{ background: 'linear-gradient(180deg, #F0FFF4 0%, #0a0f0c 100%)' }}
     >
@@ -170,8 +203,18 @@ export default function ServicesSection() {
         @keyframes fade-in {
           100% { opacity: 1; filter: blur(0); }
         }
+        
+        @keyframes aurora {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-aurora {
+          background-size: 200% 200%;
+          animation: aurora 8s ease infinite;
+        }
       `}</style>
     </section>
-  );
+  )
 }
 

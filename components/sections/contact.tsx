@@ -1,7 +1,4 @@
 "use client";
-// ...existing code...
-// Replace the top-level section in the main exported function:
-// (Removed duplicate export default function)
 
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
@@ -20,7 +17,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: (t: number) => t } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7 } },
 };
 
 const ContactSection = () => {
@@ -52,7 +49,7 @@ const ContactSection = () => {
   return (
     <motion.section 
       id="contact"
-      className="w-full py-12 md:py-16 bg-black relative overflow-hidden text-gray-300"
+      className="w-full py-20 md:py-28 bg-black relative overflow-hidden text-gray-300"
       variants={containerVariants}
       initial="hidden"
       whileInView="show"
@@ -62,26 +59,25 @@ const ContactSection = () => {
       <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(57,250,20,0.1)_0%,_rgba(0,0,0,0)_70%)]" />
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-green-500/30 to-transparent"></div>
 
-      {/* UPDATED: Reduced max-width from 7xl to 6xl for a more compact layout */}
       <div className="max-w-6xl px-4 md:px-6 mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           
-          {/* Left Side: Contact Form */}
           <motion.div variants={itemVariants}>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-green-400 via-emerald-400 to-lime-400 bg-clip-text text-transparent drop-shadow-lg">
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-green-400 via-emerald-400 to-lime-400 bg-clip-text text-transparent drop-shadow-lg py-2">
               Let's Build Together
             </h2>
             <p className="text-lg text-gray-400 max-w-lg mb-8">
               Have a project in mind or just want to learn more? Send us a message and we'll get back to you shortly.
             </p>
             
-            <motion.form
-                onSubmit={handleSubmit}
-                className="relative bg-black p-8 rounded-2xl border border-white/10 space-y-6"
-            >
+            {/* UPDATED: Form with a more subtle, premium "glass" design */}
+      <motion.form
+        onSubmit={handleSubmit}
+        className="relative p-8 rounded-2xl bg-[#10181f]/90 backdrop-blur-xl border border-green-400/20 shadow-2xl shadow-green-500/30 ring-2 ring-green-400/10 space-y-6"
+      >
               {['Your name', 'Email address', 'Message'].map((label, index) => (
                   <div key={index}>
-                      <label htmlFor={label.split(' ')[0].toLowerCase()} className="block text-sm font-medium text-gray-400 mb-2">{label}</label>
+                      <label htmlFor={label.split(' ')[0].toLowerCase()} className="block text-sm font-medium text-gray-300 mb-2">{label}</label>
                       {label === 'Message' ? (
                           <textarea id="message" rows={4} required className="mt-1 block w-full bg-gray-900/50 border border-white/10 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm px-4 py-3 text-white transition-all"/>
                       ) : (
@@ -104,8 +100,7 @@ const ContactSection = () => {
             </motion.form>
           </motion.div>
 
-          {/* Right Side: Contact Info */}
-          <motion.div variants={itemVariants} className="space-y-8 lg:pt-4">
+          <motion.div variants={itemVariants} className="space-y-8 lg:pt-4 p-8 rounded-2xl bg-[#10181f]/90 backdrop-blur-xl border border-green-400/20 shadow-2xl shadow-green-500/30 ring-2 ring-green-400/10">
               <div>
                   <h3 className="text-3xl font-bold text-white mb-2">
                     Contact Information

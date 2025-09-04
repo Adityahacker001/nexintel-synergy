@@ -49,6 +49,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/logo-2.png" type="image/png" />
+      </head>
       <body className="min-h-screen bg-white ">
         <Navbar className="fixed top-5 left-0 right-0 z-50 ">
           {/* Desktop Navigation */}
@@ -59,7 +62,7 @@ export default function RootLayout({
               <NavbarButton
                   href="#contact"
                   variant="primary"
-                  className="bg-black text-white"
+                  className="bg-black text-white rounded-[30px] "
                 >
                   Contact
                 </NavbarButton>

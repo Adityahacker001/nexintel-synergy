@@ -35,17 +35,23 @@ export default function HeroSection() {
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
-          src="/hero1.mp4"
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           className="object-cover w-full h-full"
           poster="/placeholder.jpg"
         >
+          {/* VP9 WebM for Chrome/Firefox/Edge */}
+          <source src="/hero1.webm" type="video/webm; codecs=vp9" />
+          {/* H.265/HEVC MP4 for Safari/iOS (if available) */}
+          <source src="/hero1-optimized.mp4" type="video/mp4; codecs=hev1, hvc1" />
+          {/* Fallback MP4 (H.264) for older browsers */}
+          <source src="/hero1.mp4" type="video/mp4" />
           Sorry, your browser does not support embedded videos.
         </video>
-  {/* Removed overlay to show real video quality */}
+        {/* Removed overlay to show real video quality */}
       </div>
 
       {/* Flip Text Hero Title */}
