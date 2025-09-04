@@ -9,10 +9,10 @@ export default function Footer() {
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.4),transparent_60%)] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid md:grid-cols-4 gap-12">
+        <div className="grid md:grid-cols-4 gap-12 text-center md:text-left">
           {/* Brand Section */}
           <div>
-            <div className="flex items-center space-x-3 mb-6">
+            <div className="flex flex-col items-center md:flex-row md:items-center space-x-0 md:space-x-3 mb-6">
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg bg-white/90">
                 <img
                   src="/logo-3.png"
@@ -28,7 +28,7 @@ export default function Footer() {
               Pioneering sustainable technology solutions for a smarter,
               greener future.
             </p>
-            <div className="flex space-x-5">
+            <div className="flex justify-center space-x-5">
               {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
                 <a
                   key={i}
@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
 
           {/* Services */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <h4 className="text-lg font-semibold mb-5 text-green-300 uppercase tracking-wide">
               Services
             </h4>
@@ -64,7 +64,7 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <h4 className="text-lg font-semibold mb-5 text-green-300 uppercase tracking-wide">
               Company
             </h4>
@@ -81,7 +81,7 @@ export default function Footer() {
           </div>
 
           {/* Legal */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <h4 className="text-lg font-semibold mb-5 text-green-300 uppercase tracking-wide">
               Legal
             </h4>
@@ -104,7 +104,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-green-800 mt-12 pt-6 text-center text-green-300/80 text-sm">
+  <div className="border-t border-green-800 mt-12 pt-6 text-center text-green-300/80 text-sm">
           <p>
             &copy; {new Date().getFullYear()} Nexintel Synergy. All rights
             reserved.

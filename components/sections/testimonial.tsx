@@ -64,9 +64,10 @@ export default function TestimonialsSection() {
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
+    const duration = 15; // fast everywhere
     const animation = {
       x: `-${100 * (testimonials.length / (testimonials.length * 2 / 2.1))}%`,
-      transition: { ease: (t: number) => t, duration: 60, repeat: Infinity as number },
+      transition: { ease: (t: number) => t, duration, repeat: Infinity as number },
     };
     if (isInView && !isDragging) {
       controls.start(animation);
